@@ -19,8 +19,9 @@ matrix:
     - os: windows
       language: shell
       before_install:
-       - choco install python3 --version 3.6.8 --no-progress -y
-       - choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+       - choco install python3 --no-progress -y --version 3.6.8 
+       - choco install cmake   --no-progress -y --installargs 'ADD_CMAKE_TO_PATH=System'
+       - choco install swig    --no-progress -y
        - C:\\Python36\\python -m pip install --upgrade pip wheel setuptools
       script:
        - cd python
