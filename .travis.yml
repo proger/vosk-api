@@ -20,7 +20,8 @@ matrix:
       language: shell
       before_install:
        - choco install python3 --version 3.6.8 --no-progress -y
+       - choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+       - C:\\Python36\\python -m pip install --upgrade pip wheel setuptools
       script:
        - cd python
        - C:\\Python36\\python setup.py bdist_wheel
-
