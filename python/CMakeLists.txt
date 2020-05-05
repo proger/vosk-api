@@ -16,6 +16,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} $ENV{WHEEL_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS} -std=c++11")
 include_directories("${TOP_SRCDIR}/src" "${KALDI_ROOT}/src" "${KALDI_ROOT}/tools/openfst/include" ${Python3_INCLUDE_DIRS})
 
+find_package(BLAS REQUIRED)
 find_package(SWIG REQUIRED)
 include(${SWIG_USE_FILE})
 
@@ -45,7 +46,7 @@ swig_link_libraries(vosk
              ${KALDI_ROOT}/src/base/kaldi-base.a
              ${KALDI_ROOT}/tools/openfst/lib/libfst.a
              ${KALDI_ROOT}/tools/openfst/lib/libfstngram.a
-             ${KALDI_ROOT}/tools/OpenBLAS/libopenblas.a
-             -lgfortran -lstdc++)
+             ${BLAS_LIBRARIES}
+             -lstdc++)
 
 set_target_properties(_vosk PROPERTIES LINK_FLAGS_RELEASE -s)
