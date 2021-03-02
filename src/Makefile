@@ -1,6 +1,7 @@
 KALDI_ROOT?=$(HOME)/travis/kaldi
 OPENFST_ROOT?=$(KALDI_ROOT)/tools/openfst
-OPENBLAS_ROOT?=$(KALDI_ROOT)/tools/OpenBLAS/install
+#OPENBLAS_ROOT?=$(KALDI_ROOT)/tools/OpenBLAS/install
+OPENBLAS_ROOT?=
 HAVE_CUDA?=0
 CUDA_ROOT?=/usr/local/cuda
 EXT?=so
@@ -33,12 +34,18 @@ LIBS= \
 	$(KALDI_ROOT)/src/fstext/kaldi-fstext.a \
 	$(KALDI_ROOT)/src/util/kaldi-util.a \
 	$(KALDI_ROOT)/src/base/kaldi-base.a \
+	$(OPENFST_ROOT)/lib/libfst.a \
+	$(OPENFST_ROOT)/lib/libfstngram.a
+
+ifneq ($(OPENBLAS_ROOT),)
+LIBS+= \
 	$(OPENBLAS_ROOT)/lib/libopenblas.a \
 	$(OPENBLAS_ROOT)/lib/liblapack.a \
 	$(OPENBLAS_ROOT)/lib/libblas.a \
-	$(OPENBLAS_ROOT)/lib/libf2c.a \
-	$(OPENFST_ROOT)/lib/libfst.a \
-	$(OPENFST_ROOT)/lib/libfstngram.a
+	$(OPENBLAS_ROOT)/lib/libf2c.a
+else
+LIBS+= -lmkl
+endif
 
 ifeq ($(HAVE_CUDA), 1)
 CFLAGS+=-DHAVE_CUDA=1 -I$(CUDA_ROOT)/include
