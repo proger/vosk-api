@@ -17,7 +17,9 @@ VOSK_SOURCES= \
 CFLAGS=-g -O2 -std=c++17 -fPIC -DFST_NO_DYNAMIC_LINKING \
 	-I. -I$(KALDI_ROOT)/src -I$(OPENFST_ROOT)/include -I$(OPENBLAS_ROOT)/include
 
-LIBS= \
+
+LIBS=
+LIBS+= \
 	$(KALDI_ROOT)/src/online2/kaldi-online2.a \
 	$(KALDI_ROOT)/src/decoder/kaldi-decoder.a \
 	$(KALDI_ROOT)/src/ivector/kaldi-ivector.a \
@@ -44,7 +46,7 @@ LIBS+= \
 	$(OPENBLAS_ROOT)/lib/libblas.a \
 	$(OPENBLAS_ROOT)/lib/libf2c.a
 else
-LIBS+= -lmkl_intel_lp64 -lmkl_core -lmkl_intel_thread -lmkl_avx2 -lmkl_sequential -liomp5
+LIBS+= -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread
 endif
 
 ifeq ($(HAVE_CUDA), 1)
@@ -55,7 +57,7 @@ endif
 all: libvosk.$(EXT)
 
 libvosk.$(EXT): $(VOSK_SOURCES:.cc=.o)
-	$(CXX) --shared -s -o $@ $^ $(LIBS) -lm -latomic
+	$(CXX) -shared -o $@ $^ $(LIBS) -lm -latomic
 
 %.o: %.cc
 	$(CXX) $(CFLAGS) -c -o $@ $<
