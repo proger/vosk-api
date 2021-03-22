@@ -46,7 +46,7 @@ LIBS+= \
 	$(OPENBLAS_ROOT)/lib/libblas.a \
 	$(OPENBLAS_ROOT)/lib/libf2c.a
 else
-LIBS+= -lmkl_rt -lpthread
+LIBS+= -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread
 endif
 
 ifeq ($(HAVE_CUDA), 1)
