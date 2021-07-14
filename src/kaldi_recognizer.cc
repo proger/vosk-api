@@ -423,7 +423,10 @@ const char* KaldiRecognizer::GetResult()
         aligned_lat = clat;
     }
 
-    MinimumBayesRisk mbr(aligned_lat);
+    MinimumBayesRiskOptions mbr_opts;
+    mbr_opts.decode_mbr = true;
+    mbr_opts.print_silence = true;
+    MinimumBayesRisk mbr(aligned_lat, mbr_opts);
     const vector<BaseFloat> &conf = mbr.GetOneBestConfidences();
     const vector<int32> &words = mbr.GetOneBest();
     const vector<pair<BaseFloat, BaseFloat> > &times =
